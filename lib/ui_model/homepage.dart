@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:moviesapp/ui_model/cardcustomWidget.dart';
 import 'package:moviesapp/utilities/urls.dart';
 import 'dart:convert';
 import '../models/static_movie_model.dart';
 import 'DetailScreen.dart';
-import 'SearchScreen.dart';
+//import 'SearchScreen.dart';
 
 
 import 'package:flutter/material.dart';
@@ -33,35 +34,50 @@ getMovies();
       appBar: AppBar(
         title: Text('Movies App'),
       ),
-      body:FutureBuilder<List<moviesData>>(
-        future: getMovies(), // Call the API function here
+      body:
+
+      FutureBuilder<List<moviesData>>(
+        future: getMovies(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator()); // Loading indicator
+            return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}')); // Error message
-          } else if (snapshot.hasData) {
-            final movies = snapshot.data!;
-            return ListView.builder(
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('No Movies Found.'));
+          }
+
+          final movies = snapshot.data!;
+
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 8.0,
+                mainAxisExtent: 376,
+                mainAxisSpacing: 8.0,
+                childAspectRatio: 0.7,
+              ),
               itemCount: movies.length,
               itemBuilder: (context, index) {
                 final movie = movies[index];
-                return ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage( movie.show?.image?.original ?? "https://via.placeholder.com/150"),
-                  ),
-                  title: Text(movie.show?.name ?? 'Unknown Movie'),
-                  subtitle: Text('Score: ${movie.score?.toStringAsFixed(1) ?? 'N/A'}'),
-                  trailing: Text(movie.show?.language ?? 'Unknown Language'),
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MovieDetailPage(movie: movie),
+                      ),
+                    );
+                  },
+                  child: MovieCard(movie: movie),
                 );
               },
-            );
-          } else {
-            return Center(child: Text('No movies available'));
-          }
+            ),
+          );
         },
       ),
-      //Center(child: Text("hlo"),),
 
      /* FutureBuilder<List<moviesData>>(future: getMovies(), builder: (_,snapshot){
         if(snapshot.hasError){
