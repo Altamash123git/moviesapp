@@ -26,8 +26,8 @@ List pages= [HomeScreen(),SearchPage()];
 
         },
         items:const [
-          BottomNavigationBarItem(icon: Icon(Icons.home),label: ""),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: "")
+          BottomNavigationBarItem(icon: Icon(Icons.home,color: Colors.red,size: 35,),label: ""),
+          BottomNavigationBarItem(icon: Icon(Icons.search,color: Colors.red,size: 35,), label: "")
 
 
         ] ),
