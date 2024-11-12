@@ -32,7 +32,7 @@ class Show {
   dynamic webChannel;
   dynamic dvdCountry;
   Externals? externals;
-  Image? image;
+  ShowImage? image;
   String? summary;
   double? updated; // Allow double type
   Links? links;
@@ -87,7 +87,7 @@ class Show {
     webChannel = json['webChannel'];
     dvdCountry = json['dvdCountry'];
     externals = json['externals'] != null ? Externals.fromJson(json['externals']) : null;
-    image = json['image'] != null ? Image.fromJson(json['image']) : null;
+    image = json['image'] != null ? ShowImage.fromJson(json['image']) : null;
     summary = json['summary'];
     links = json['_links'] != null ? Links.fromJson(json['_links']) : null;
   }
@@ -201,13 +201,13 @@ class Externals {
   }
 }
 
-class Image {
+class ShowImage {
   String? medium;
   String? original;
 
-  Image({this.medium, this.original});
+  ShowImage({this.medium, this.original});
 
-  Image.fromJson(Map<String, dynamic> json) {
+  ShowImage.fromJson(Map<String, dynamic> json) {
     medium = json['medium'];
     original = json['original'];
   }
