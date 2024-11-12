@@ -62,10 +62,12 @@ class _SearchPageState extends State<SearchPage> {
           : _searchResults.isEmpty
           ? Center(child: Text('No results found'))
           : ListView.builder(
+        //gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
         itemCount: _searchResults.length,
         itemBuilder: (context, index) {
           final movie = _searchResults[index];
-          return ListTile(
+          return
+            ListTile(
             leading: movie.show?.image?.original != null
                 ? Image.network(movie.show!.image!.original!) // Use flutter's Image widget explicitly.
                 : Icon(Icons.image_not_supported),
